@@ -1,0 +1,118 @@
+﻿@model IEnumerable<SB.Models.Customer>
+
+@{
+
+    ViewBag.Title = "Index";
+}
+
+<h2>Bem-vindo @ViewBag.UserName</h2>
+
+@using (Html.BeginForm())
+{
+
+<table class="table">
+    <tr>
+        <td>
+            Name: @Html.TextBox("searchName")
+        </td>
+        <td>
+            Gender: @Html.DropDownList("GenreId", new SelectList(Enum.GetValues(typeof(SB.Models.Customer.GenderEnum))), "", "Select")
+        </td>
+        <td>
+            <input type="submit" value="Search" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            City: @Html.DropDownList("CityId", new SelectList(ViewBag.Cities, "value", "text"), "", "Select")
+        </td>
+        <td>
+            Region: @Html.DropDownList("RegionId", new SelectList(ViewBag.Regions, "value", "text"), "", "Select")
+        </td>
+ 
+    </tr>
+    <tr>
+        <td>
+            Classification: @Html.DropDownList("ClassificationId", new SelectList(ViewBag.Classifications, "value", "text"), "", "Select")
+        </td>
+
+        @if(ViewBag.Role == "Administrator ")
+        {
+        <td>
+            Seller: @Html.DropDownList("CustomerSellerId", new SelectList(ViewBag.Sellers, "value", "text"), "", "Select")
+        </td>
+        }
+    </tr>
+    <tr>
+        <td>
+            Last Purchase: @Html.TextBox("dateStart", String.Format("{0:dd/MM/yyyy}", ""), new { @class = "date", placeholder = "dd/MM/yyyy" })
+        </td>
+        <td>
+            Until @Html.TextBox("dateEnd", String.Format("{0:dd/MM/yyyy}", ""), new { @class = "date", placeholder = "dd/MM/yyyy" })
+        </td>
+        <td>
+            <input type="reset" value="Clear Fields" />
+        </td>
+    </tr>
+</table>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Phone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Gender)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Region)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastPurchase)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Classification)
+        </th>
+        <th>
+            @Html.DisplayName("Seller")
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Region.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastPurchase)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Classification.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Login)
+            </td>
+        </tr>
+    }
+
+</table>
